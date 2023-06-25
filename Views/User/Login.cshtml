@@ -1,0 +1,150 @@
+﻿@model Full_projeject.Models.LoginModel
+
+@{
+   
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>SignUp</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="../../Content/images/icons/favicon.ico" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="../../Content/vendor/bootstrap/css/bootstrap.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="../../Content/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="../../Content/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="../../Content/vendor/animate/animate.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="../../Content/vendor/css-hamburgers/hamburgers.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="../../Content/vendor/animsition/css/animsition.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="../../Content/vendor/select2/select2.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="../../Content/vendor/daterangepicker/daterangepicker.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="../../Content/css/util.css">
+    <link rel="stylesheet" type="text/css" href="../../Content/css/main.css">
+    <!--===============================================================================================-->
+</head>
+
+
+<body>
+
+
+    <div class="limiter">
+        <div class="container-login100">
+            <a href="javascript:history.back()" class="linkBack">
+                <svg class="svg-icon" viewBox="0 0 20 20">
+                    <path fill="none" d="M18.271,9.212H3.615l4.184-4.184c0.306-0.306,0.306-0.801,0-1.107c-0.306-0.306-0.801-0.306-1.107,0
+					L1.21,9.403C1.194,9.417,1.174,9.421,1.158,9.437c-0.181,0.181-0.242,0.425-0.209,0.66c0.005,0.038,0.012,0.071,0.022,0.109
+					c0.028,0.098,0.075,0.188,0.142,0.271c0.021,0.026,0.021,0.061,0.045,0.085c0.015,0.016,0.034,0.02,0.05,0.033l5.484,5.483
+					c0.306,0.307,0.801,0.307,1.107,0c0.306-0.305,0.306-0.801,0-1.105l-4.184-4.185h14.656c0.436,0,0.788-0.353,0.788-0.788
+					S18.707,9.212,18.271,9.212z"></path>
+                </svg>
+            </a>
+
+            <div class="wrap-login100">
+                <div class="login100-form-title" style="background-image: url(../../Content/images/bg-01.jpg);">
+                    <span class="login100-form-title-1">
+                        Sign In
+                    </span>
+                </div>
+
+                <form class="login100-form validate-form" method="post">
+                    <div class="wrap-input100 validate-input m-b-26" data-validate="Email is required">
+                        <span class="label-input100">E-mail</span>
+                        <input class="input100" type="email" id="email" name="Email" placeholder="Enter Email">
+                        <span class="focus-input100" id="emailerr"></span>
+                    </div>
+
+                    <div class="wrap-input100 validate-input m-b-18" data-validate="Password is required">
+                        <span class="label-input100">Password</span>
+                        <input class="input100" type="password" id="Pass" name="Password" placeholder="Enter password" />
+                        <span class="focus-input100" id="Error"></span>
+                    </div>
+
+                    <div class="flex-sb-m w-full p-b-30">
+                        <div class="contact100-form-checkbox">
+                            <input class="input-checkbox100" id="ckb1" type="checkbox" name="RememberMe">
+                            <label class="label-checkbox100" for="ckb1">
+                                Remember me
+                            </label>
+                        </div>
+
+
+
+                        <div>
+                            <a href="#" class="txt1">
+                                Forgot Password?
+                            </a>
+                        </div>
+                    </div>
+
+                    @if (!ViewData.ModelState.IsValid)
+                    {
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach (var error in ViewData.ModelState.Values.SelectMany(modelState => modelState.Errors.Select(x => x.ErrorMessage)))
+                                {
+                                    <li class="focus-input100">@error.ToString()</li>
+                                }
+                            </ul>
+                        </div>
+                    }
+
+
+                    <div class="container-login100-form-btn">
+                        <input type="submit" value="Sign In" class="login100-form-btn" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="../../Content/vendor/jquery/jquery-3.2.1.min.js"></script>
+
+    <script src="../../Content/vendor/animsition/js/animsition.min.js"></script>
+    <script src="../../Content/vendor/bootstrap/js/popper.js"></script>
+    <script src="../../Content/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <script src="../../Content/vendor/select2/select2.min.js"></script>
+
+    <script src="../../Content/vendor/daterangepicker/moment.min.js"></script>
+    <script src="../../Content/vendor/daterangepicker/daterangepicker.js"></script>
+
+    <script src="../../Content/vendor/countdowntime/countdowntime.js"></script>
+    @*<script type="text/javascript">
+        document.getElementById('Pass').addEventListener('blur', function () {
+            let passwordField = document.getElementById('Pass');
+            let errorMessage = document.getElementById('Error');
+
+            if (passwordField.value.length <= 6) {
+                errorMessage.textContent = "Password must be longer than 6 characters.";
+            } else {
+                errorMessage.textContent = "";
+            }
+        });
+
+        document.getElementById('email').addEventListener('blur', function () {
+            let emailField = document.getElementById('email');
+            let errorMessage = document.getElementById('emailerr');
+
+            if (emailField.value.length == 0) {
+                errorMessage.textContent = "Email is required..";
+            } else {
+                errorMessage.textContent = "";
+            }
+        });
+    </script>*@
+
+
+</body>
+</html>
+
