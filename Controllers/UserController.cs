@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using System.Security.Claims;
 using Microsoft.Owin.Security;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace Full_projeject.Controllers
 {
@@ -31,6 +32,16 @@ namespace Full_projeject.Controllers
         [HttpPost]
         public async Task<ActionResult> SignUp(SignupModel signupModel)
         {
+
+            // Regex pattern for Canadian and American phone numbers (NPA-NXX-XXXX)
+            string phoneNumberPattern = @"^(\([0-9]{3}\) |[0-9]{3}-)[0-9]{3}-[0-9]{4}$";
+
+            // Checking the phone number format
+            if (!Regex.IsMatch(signupModel.PhoneNumber, phoneNumberPattern))
+            {
+                ModelState.AddModelError("PhoneNumber", "Invalid phone number. The format should be: NPA-NXX-XXXX");
+                return View();
+            }
 
             try
             {
@@ -190,6 +201,38 @@ namespace Full_projeject.Controllers
         }
 
 
+        // reset password 
+        [AllowAnonymous]
+        [HttpGet]
+        public ActionResult ResetPassword()
+        {
+            return View();
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<ActionResult> ResetPassword(string email)
+        {
+            try
+            {
+                var auth = new FirebaseAuthProvider(new FirebaseConfig(ApiKey));
+                await auth.SendPasswordResetEmailAsync(email);
+                if(ModelState.IsValid)
+                {
+                    ModelState.AddModelError(string.Empty, "Please Check Your Email!");
+                }
+                return RedirectToAction("Login");
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError(string.Empty, e.Message);
+            }
+            return View();
+        }
+
 
     }
+
+
+    
 }
