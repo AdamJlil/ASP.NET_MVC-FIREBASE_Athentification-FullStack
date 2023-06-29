@@ -45,6 +45,7 @@ namespace Full_projeject.Controllers
 
             try
             {
+
                 // firebase authentification 
                 var auth = new FirebaseAuthProvider(new FirebaseConfig(ApiKey));
                 // create user with email and password
@@ -70,7 +71,8 @@ namespace Full_projeject.Controllers
         {
             try
             {
-                if (Request.IsAuthenticated)
+                var rememberMeCookie = HttpContext.Request.Cookies["RememberMe"];
+                if (Request.IsAuthenticated && rememberMeCookie != null && rememberMeCookie.Value == "true")
                 {
                     if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
                     {
@@ -99,18 +101,22 @@ namespace Full_projeject.Controllers
         {
             try
             {
+
+
                 if (ModelState.IsValid)
                 {
                     var auth = new FirebaseAuthProvider(new FirebaseConfig(ApiKey));
                     var a = await auth.SignInWithEmailAndPasswordAsync(loginModel.Email, loginModel.Password);
-                    if(!a.User.IsEmailVerified)
+
+                    var user = await auth.GetUserAsync(a.FirebaseToken);
+
+                    if (!user.IsEmailVerified)
                     {
                         ModelState.AddModelError(string.Empty, "Please Verify Your Email!");
                         return View();
                     }
 
                     string token = a.FirebaseToken;
-                    var user = a.User;
                     if(token.Length > 0)
                     {
                         SignInUser(user.Email, token, loginModel.RememberMe);
@@ -171,6 +177,12 @@ namespace Full_projeject.Controllers
                 var ctx = HttpContext.GetOwinContext();
                 var authenticationManager = ctx.Authentication;
                 authenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = isPersistent}, claimIdentity);
+                if (isPersistent)
+                {
+                    var rememberMeCookie = new HttpCookie("RememberMe", "true");
+                    rememberMeCookie.Expires = DateTime.Now.AddHours(5); // Set your own expiration date
+                    HttpContext.Response.Cookies.Add(rememberMeCookie);
+                }
 
 
             }
@@ -193,6 +205,12 @@ namespace Full_projeject.Controllers
                 var ctx = Request.GetOwinContext();
                 var authenticationManager = ctx.Authentication;
                 authenticationManager.SignOut();
+                if (HttpContext.Response.Cookies["RememberMe"] != null)
+                {
+                    var cookie = new HttpCookie("RememberMe");
+                    cookie.Expires = DateTime.Now.AddDays(-1);
+                    HttpContext.Response.Cookies.Add(cookie);
+                }
             }
             catch(Exception e)
             {

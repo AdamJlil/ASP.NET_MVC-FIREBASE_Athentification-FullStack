@@ -70,10 +70,8 @@
                     </div>
 
                     <div class="wrap-input100 validate-input m-b-26" data-validate="Phone number is required">
-
                         <span class="label-input100">Phone number</span>
-                        <input class="input100" type="tel" id="phone" name="PhoneNumber" placeholder="Enter phone number NPA-NXX-XXXX" required />
-
+                        <input class="input100" type="tel" id="phone" name="PhoneNumber" placeholder="Enter phone number" required />
                     </div>
 
 
@@ -129,27 +127,7 @@
     <script src="vendor/daterangepicker/daterangepicker.js"></script>
 
     <script src="vendor/countdowntime/countdowntime.js"></script>
-    <script>
-        function validatePhoneNumber(input_str) {
-            var phoneno = /^([2-9]{1}\d{2})\-([2-9]{1}\d{2})\-\d{4}$/;
-            if (input_str.match(phoneno)) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-        document.getElementById('phone').addEventListener('blur', function () {
-            let phoneNumberField = document.getElementById('phone');
-            let errorMessage = document.getElementById('phoneerr');
-
-            if (!validatePhoneNumber(phoneNumberField.value)) {
-                errorMessage.textContent = "Invalid phone number. The format should be: NPA-NXX-XXXX.";
-            } else {
-                errorMessage.textContent = "";
-            }
-        });
-
-    </script>
+  
     <script type="text/javascript">
         document.getElementById('your_password_field_id').addEventListener('blur', function () {
             let passwordField = document.getElementById('Pass');
